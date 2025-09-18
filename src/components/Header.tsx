@@ -6,10 +6,12 @@ export default function Header() {
   return (
     <Box
       sx={{
-        bgcolor: "#0f4d92",
+        bgcolor: "primary.main",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
+        px: 3,
       }}
     >
       <Typography
