@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material/styles";
-import { theSeasons } from "../fonts/theSeason";
 
 const theme = createTheme({
   palette: {
@@ -19,6 +18,34 @@ const theme = createTheme({
     //Set default font family as ui-sans-serif
     fontFamily:
       "ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji",
+  },
+  components: {
+    MuiTextField: {
+      defaultProps: {
+        variant: "outlined",
+      },
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            border: "none",
+            "& fieldset": {
+              borderColor: "transparent",
+            },
+
+            "&.Mui-focused fieldset": {
+              borderColor: "#C4C4C4",
+              height: "100%",
+              transition: "0.2s",
+            },
+
+            "&:hover fieldset": {
+              borderColor: "#C4C4C4",
+              transition: "0.2s",
+            },
+          },
+        },
+      },
+    },
   },
 });
 

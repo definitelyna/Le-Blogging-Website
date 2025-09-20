@@ -6,19 +6,10 @@ import {
   Chip,
   Typography,
 } from "@mui/material";
+import Blog from "../constants/blogInterface";
 
 interface BlogCardProps {
-  blog: {
-    id: string;
-    title: string;
-    author: string;
-    datePublished: Date;
-    description: string;
-    category: string;
-    tags: Array<string>;
-    imageUrl: string;
-    content: string;
-  };
+  blog: Blog;
 }
 
 export default function BlogCard({ blog }: BlogCardProps) {
