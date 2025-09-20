@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Blog from "@/src/constants/blogInterface";
 import { Box, Chip } from "@mui/material";
 import BlogCard from "@/src/components/BlogCard";
+import Link from "next/link";
 
 const blogs: Blog[] = [
   {
@@ -82,7 +83,7 @@ export default function BlogSection({
 
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", gap: 4, py: 6, px: 5 }}
+      sx={{ display: "flex", flexDirection: "column", gap: 4, py: 4, px: 5 }}
     >
       <Box sx={{ display: "flex", gap: 1 }}>
         {categories?.map((category) => (
@@ -116,7 +117,27 @@ export default function BlogSection({
       >
         {displayBlogs?.length === 0
           ? "No blogs found"
-          : displayBlogs?.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
+          : displayBlogs?.map((blog) => (
+              <Link
+                key={blog.id}
+                href={`/blog/${blog.id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Box
+                  sx={{
+                    transition: "transform 0.2s, box-shadow 0.2s",
+                    borderRadius: 3,
+                    boxShadow: "none",
+                    "&:hover": {
+                      transform: "scale(1.01)",
+                      boxShadow: "0 4px 20px rgba(0,0,0,0.10)",
+                    },
+                  }}
+                >
+                  <BlogCard blog={blog} />
+                </Box>
+              </Link>
+            ))}
       </Box>
     </Box>
   );
