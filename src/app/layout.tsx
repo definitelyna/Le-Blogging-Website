@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import MuiThemeProvider from "../providers/MuiThemeProvider";
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import Header from "../components/Header";
-import CustomContainer from "../components/CustomContainer";
+import { Footer } from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Globally Vietnamese",
@@ -28,6 +28,7 @@ export default function RootLayout({
           >
             <Header />
             {children}
+            <Footer />
           </Box>
         </body>
       </MuiThemeProvider>

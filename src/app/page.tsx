@@ -2,12 +2,11 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { theSeasons } from "../fonts/theSeason";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import BlogCard from "../components/BlogCard";
-import CustomContainer from "../components/CustomContainer";
-import Section from "../components/CustomContainer";
 
 const blogs = [
   {
     id: "1",
+    author: "Collin Camerer",
     title: "The Rise of Vietnamese Entrepreneurs in the Global Market",
     datePublished: new Date("2023-10-01"),
     description:
@@ -20,6 +19,7 @@ const blogs = [
   },
   {
     id: "2",
+    author: "Linh Tran",
     title: "Cultural Festivals Celebrating Vietnamese Heritage Worldwide",
     datePublished: new Date("2023-09-15"),
     description:
@@ -32,6 +32,7 @@ const blogs = [
   },
   {
     id: "3",
+    author: "Minh Nguyen",
     title: "Vietnamese Cuisine: A Culinary Journey Across Continents",
     datePublished: new Date("2023-08-30"),
     description:
@@ -113,7 +114,15 @@ export default function Home() {
           entrepreneurship, and global communities
         </Typography>
 
-        <Box sx={{ display: "flex", gap: 4, justifyContent: "center", mt: 5 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 4,
+            justifyContent: "center",
+            mt: 5,
+          }}
+        >
           {blogs.map((blog, index) => (
             <BlogCard key={index} blog={blog} />
           ))}
