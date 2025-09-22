@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import MuiThemeProvider from "../providers/MuiThemeProvider";
 import { Box } from "@mui/material";
 import Header from "../components/Header";
-import { Footer } from "../components/Footer";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Globally Vietnamese",
