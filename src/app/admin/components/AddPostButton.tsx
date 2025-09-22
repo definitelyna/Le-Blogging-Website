@@ -6,7 +6,7 @@ import { useState } from "react";
 import AddPostDialog from "./AddPostDialog";
 
 export default function AddPostButton() {
-  const [openDialog, setOpenDialog] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleClick = () => {
     setOpenDialog(true);
