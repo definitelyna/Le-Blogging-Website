@@ -3,15 +3,22 @@ import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import Blog from "@/src/constants/blogInterface";
 
 interface BlogPostPageProps {
   params: { slug: string };
 }
 
-const blogs = [
+const blogs: Blog[] = [
   {
     id: "1",
-    author: "Collin Camerer",
+    author: {
+      id: "1",
+      name: "Collin Camerer",
+      bio: "Collin Camerer is a seasoned entrepreneur with over 15 years of experience in the tech industry. He has founded multiple successful startups and is passionate about fostering innovation and supporting emerging entrepreneurs.",
+      profilePictureUrl:
+        "https://caltech-prod.s3.amazonaws.com/main/images/CollinCamerer-ShortSelling-0.2e16d0ba.fill-1600x810-c100.jpg",
+    },
     title: "The Rise of Vietnamese Entrepreneurs in the Global Market",
     datePublished: new Date("2023-10-01"),
     description:
@@ -24,7 +31,13 @@ const blogs = [
   },
   {
     id: "2",
-    author: "Linh Tran",
+    author: {
+      id: "2",
+      name: "Linh Tran",
+      bio: "Linh Tran is a cultural anthropologist and writer who has spent over a decade studying Vietnamese culture and traditions. She has published numerous articles and books on the subject and is dedicated to promoting cultural understanding.",
+      profilePictureUrl:
+        "https://special.vietnamplus.vn/wp-content/uploads/2025/02/vna_potal_lang_lua_van_phuc_-_net_dep_van_hoa_truyen_thong_viet_nam_140239236_4099112-1620x1080.jpg",
+    },
     title: "Cultural Festivals Celebrating Vietnamese Heritage Worldwide",
     datePublished: new Date("2023-09-15"),
     description:
@@ -37,7 +50,13 @@ const blogs = [
   },
   {
     id: "3",
-    author: "Minh Nguyen",
+    author: {
+      id: "3",
+      name: "Minh Nguyen",
+      bio: "Minh Nguyen is a food critic and writer with a deep appreciation for Vietnamese cuisine. He has traveled extensively throughout Vietnam, exploring its diverse culinary landscape and sharing his experiences through his writing.",
+      profilePictureUrl:
+        "https://www.recipetineats.com/tachyon/2019/04/Beef-Pho_6.jpg",
+    },
     title: "Vietnamese Cuisine: A Culinary Journey Across Continents",
     datePublished: new Date("2023-08-30"),
     description:
@@ -49,33 +68,12 @@ const blogs = [
   },
 ];
 
-const authors = [
-  {
-    name: "Collin Camerer",
-    bio: "Collin Camerer is a seasoned entrepreneur with over 15 years of experience in the tech industry. He has founded multiple successful startups and is passionate about fostering innovation and supporting emerging entrepreneurs.",
-    profilePictureUrl:
-      "https://caltech-prod.s3.amazonaws.com/main/images/CollinCamerer-ShortSelling-0.2e16d0ba.fill-1600x810-c100.jpg",
-  },
-  {
-    name: "Linh Tran",
-    bio: "Linh Tran is a cultural anthropologist and writer who has spent over a decade studying Vietnamese culture and traditions. She has published numerous articles and books on the subject and is dedicated to promoting cultural understanding.",
-    profilePictureUrl:
-      "https://special.vietnamplus.vn/wp-content/uploads/2025/02/vna_potal_lang_lua_van_phuc_-_net_dep_van_hoa_truyen_thong_viet_nam_140239236_4099112-1620x1080.jpg",
-  },
-  {
-    name: "Minh Nguyen",
-    bio: "Minh Nguyen is a food critic and writer with a deep appreciation for Vietnamese cuisine. He has traveled extensively throughout Vietnam, exploring its diverse culinary landscape and sharing his experiences through his writing.",
-    profilePictureUrl:
-      "https://www.recipetineats.com/tachyon/2019/04/Beef-Pho_6.jpg",
-  },
-];
-
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const slug = await params.slug;
 
   const blogPost = blogs.find((blog) => blog.id === slug);
 
-  const thisAuthor = authors.find((author) => author.name === blogPost?.author);
+  const thisAuthor = blogPost?.author;
 
   if (!blogPost) {
     return <div>Blog Post Not Found</div>;
@@ -141,7 +139,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               color="text.secondary"
               fontWeight={400}
             >
-              {blogPost.author}
+              {blogPost.author.name}
             </Typography>
           </Box>
 
