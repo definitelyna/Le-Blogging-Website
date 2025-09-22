@@ -1,10 +1,10 @@
+import { colors } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
       main: "#0f4d92",
-      secondary: "#F9F9FA",
     },
     background: {
       default: "#ffffff",
@@ -27,17 +27,32 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "& .MuiOutlinedInput-root": {
-            border: "none",
-            "& fieldset": {
-              borderColor: "transparent",
-            },
-
             "&.Mui-focused fieldset": {
               borderColor: "#C4C4C4",
               height: "100%",
               transition: "0.2s",
             },
 
+            "&:hover fieldset": {
+              borderColor: "#C4C4C4",
+              transition: "0.2s",
+            },
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      defaultProps: {
+        variant: "outlined",
+      },
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: "#C4C4C4",
+              height: "100%",
+              transition: "0.2s",
+            },
             "&:hover fieldset": {
               borderColor: "#C4C4C4",
               transition: "0.2s",

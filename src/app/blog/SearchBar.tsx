@@ -26,7 +26,29 @@ export default function SearchBar({
       InputProps={{
         startAdornment: <SearchIcon sx={{ color: "text.secondary", mr: 2 }} />,
       }}
-      sx={{ bgcolor: "#F3F3F5", borderRadius: 1, ...sx, pb: 1.3 }}
+      sx={{
+        bgcolor: "#F3F3F5",
+        borderRadius: 1,
+        ...sx,
+        pb: 1.3,
+        "& .MuiOutlinedInput-root": {
+          border: "none",
+          "& fieldset": {
+            borderColor: "transparent",
+          },
+
+          "&.Mui-focused fieldset": {
+            borderColor: "#C4C4C4",
+            height: "100%",
+            transition: "0.2s",
+          },
+
+          "&:hover fieldset": {
+            borderColor: "#C4C4C4",
+            transition: "0.2s",
+          },
+        },
+      }}
     />
   );
 }
