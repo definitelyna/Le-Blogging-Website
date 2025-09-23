@@ -13,7 +13,7 @@ export default function Home() {
           display: "flex",
           flexDirection: "column",
           gap: 3,
-          bgcolor: "primary.secondary",
+          bgcolor: "#F9F9FA",
         }}
       >
         <Typography
