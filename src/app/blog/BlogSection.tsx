@@ -76,27 +76,7 @@ export default function BlogSection({
       >
         {displayBlogs?.length === 0
           ? "No blogs found"
-          : displayBlogs?.map((blog) => (
-              <Link
-                key={blog.id}
-                href={`/blog/${blog.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Box
-                  sx={{
-                    transition: "transform 0.2s, box-shadow 0.2s",
-                    borderRadius: 3,
-                    boxShadow: "none",
-                    "&:hover": {
-                      transform: "scale(1.01)",
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.10)",
-                    },
-                  }}
-                >
-                  <BlogCard blog={blog} />
-                </Box>
-              </Link>
-            ))}
+          : displayBlogs?.map((blog) => <BlogCard blog={blog} key={blog.id} />)}
       </Box>
     </Box>
   );
