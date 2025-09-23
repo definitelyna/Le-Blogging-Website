@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { AlertType } from "../context/AlertContextProvider";
+import { AlertType } from "./AlertContextProvider";
 
 const AlertContext = createContext<{
   alert: [AlertType, string];

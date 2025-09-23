@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AlertContext from "../components/AlertContext";
+import AlertContext from "./AlertContext";
 import { Alert } from "@mui/material";
 
 interface AlertContextProviderProps {
