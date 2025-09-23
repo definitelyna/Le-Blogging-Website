@@ -38,7 +38,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
         />
         <Box>
           <Typography variant="body2" color="text.secondary">
-            {blog.author} &bull;{" "}
+            {blog.author.name} &bull;{" "}
             {blog.datePublished.toLocaleDateString([], {
               year: "numeric",
               month: "long",
