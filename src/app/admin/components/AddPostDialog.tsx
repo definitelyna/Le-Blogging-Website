@@ -13,9 +13,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Blog from "@/src/constants/blogInterface";
 import Author from "@/src/constants/authorInterface";
+import blogInterface from "@/src/constants/blogInterface";
+import { addBlogWithImage } from "@/src/utils/addBlog";
+import AlertContext from "../context/AlertContext";
 
 const blogs: Blog[] = [
   {
@@ -106,10 +109,11 @@ interface AddPostDialogProps {
   open: boolean;
   onClose: () => void;
 }
-import blogInterface from "@/src/constants/blogInterface";
 
 export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
+  const { setAlert } = useContext(AlertContext);
   const [postContent, setPostContent] = useState<Blog>({} as Blog);
+  const [imageFile, setImageFile] = useState<File>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   //tagsInput to display tags as comma separated in textfield
@@ -123,11 +127,29 @@ export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
   }, [tagsInput]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const handleSubmit = () => {
-    console.log(postContent);
-    setIsSubmitting(true);
 
-    
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    const newPostContent = { ...postContent, datePublished: new Date() };
+    setPostContent(newPostContent);
+
+    try {
+      const result = await addBlogWithImage(newPostContent, imageFile);
+      console.log(result);
+      return result.success
+        ? ["success", "Blog added successfully!"]
+        : ["error", "Failed to add blog."];
+    } catch (error) {
+      console.error("Error adding blog:", error);
+      setAlert(["error", "Failed to add blog."]);
+    }
+
+    setIsSubmitting(false);
+    onClose();
+    setPostContent({} as Blog);
+    setImageFile(undefined);
+    setImagePreview(null);
+    setTagsInput("");
   };
 
   return (
@@ -277,10 +299,7 @@ export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
                   setImagePreview(reader.result as string);
-                  setPostContent({
-                    ...postContent,
-                    imageUrl: reader.result as string,
-                  });
+                  setImageFile(file);
                 };
                 reader.readAsDataURL(file);
               }
