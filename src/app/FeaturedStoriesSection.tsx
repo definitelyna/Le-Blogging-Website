@@ -12,8 +12,12 @@ export default function FeaturedStoriesSection() {
     const fetchBlogs = async () => {
       try {
         const data = await getAllBlogs();
-        if (data) {
-          setBlogs(data);
+        const latestPosts = data
+          .sort((a, b) => b.datePublished.getTime() - a.datePublished.getTime())
+          .slice(0, 3);
+        console.log("Latest posts:", latestPosts);
+        if (latestPosts) {
+          setBlogs(latestPosts);
         } else {
           console.error("No data found");
         }
