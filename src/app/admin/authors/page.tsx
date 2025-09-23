@@ -18,34 +18,23 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import Author from "@/src/constants/authorInterface";
-
-const authors: Author[] = [
-  {
-    id: "1",
-    name: "Collin Camerer",
-    bio: "Collin Camerer is a seasoned entrepreneur with over 15 years of experience in the tech industry. He has founded multiple successful startups and is passionate about fostering innovation and supporting emerging entrepreneurs.",
-    profilePictureUrl:
-      "https://caltech-prod.s3.amazonaws.com/main/images/CollinCamerer-ShortSelling-0.2e16d0ba.fill-1600x810-c100.jpg",
-  },
-  {
-    id: "2",
-    name: "Linh Tran",
-    bio: "Linh Tran is a cultural anthropologist and writer who has spent over a decade studying Vietnamese culture and traditions. She has published numerous articles and books on the subject and is dedicated to promoting cultural understanding.",
-    profilePictureUrl:
-      "https://special.vietnamplus.vn/wp-content/uploads/2025/02/vna_potal_lang_lua_van_phuc_-_net_dep_van_hoa_truyen_thong_viet_nam_140239236_4099112-1620x1080.jpg",
-  },
-  {
-    id: "3",
-    name: "Minh Nguyen",
-    bio: "Minh Nguyen is a food critic and writer with a deep appreciation for Vietnamese cuisine. He has traveled extensively throughout Vietnam, exploring its diverse culinary landscape and sharing his experiences through his writing.",
-    profilePictureUrl:
-      "https://www.recipetineats.com/tachyon/2019/04/Beef-Pho_6.jpg",
-  },
-];
+import { useEffect, useState } from "react";
+import { getAllAuthors } from "@/src/utils/getAllAuthor";
 
 export default function AuthorTableSection() {
+  const [authors, setAuthors] = useState<Author[]>([]);
+
+  useEffect(() => {
+    const fetchAuthors = async () => {
+      const authors = await getAllAuthors();
+      setAuthors(authors);
+      console.log("Fetched authors:", authors);
+    };
+
+    fetchAuthors();
+  }, []);
+
   return (
     <SimpleCard
       contentSx={{ p: 3, display: "flex", flexDirection: "column", gap: 3 }}
