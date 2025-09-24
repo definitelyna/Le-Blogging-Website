@@ -11,27 +11,22 @@ export async function uploadImage(file: File, folder: string): Promise<string> {
 }
 
 // Add author with image upload
-export async function addAuthorWithImage(
-  author: Omit<Author, "profilePictureUrl" | "id">,
-  file: File | undefined
-) {
-  if (!file) {
-    return { success: false, message: "No image provided" };
-  }
-  const profilePictureUrl = await uploadImage(file, "authors");
+export async function setAuthorById(author: Author, file: File | undefined) {
+  const profilePictureUrl = file
+    ? await uploadImage(file, "authors")
+    : author.profilePictureUrl;
 
-  const docRef = await addDoc(collection(db, "authors"), {
+  const docRef = await setDoc(doc(db, "authors", author.id), {
     ...author,
     profilePictureUrl,
   });
 
   return {
     success: true,
-    message: "Author added successfully",
+    message: "Author updated successfully",
     author: {
-      id: docRef.id,
       ...author,
-      profilePictureUrl,
+      profilePictureUrl: profilePictureUrl,
     },
   };
 }

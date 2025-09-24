@@ -108,7 +108,7 @@ export default function PostTableSection() {
               <TableCell>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <PersonOutlineOutlinedIcon />
-                  {blog.author.name}
+                  {blog.author?.name}
                 </Box>
               </TableCell>
               <TableCell>

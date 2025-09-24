@@ -23,10 +23,15 @@ import { useEffect, useState } from "react";
 import { getAllAuthors } from "@/src/utils/getAllAuthor";
 import AddIcon from "@mui/icons-material/Add";
 import AddAuthorDialog from "./AddAuthorDialog";
+import DeleteAuthorDialog from "./DeleteAuthorDialog";
+import EditAuthorDialog from "./EditAuthorDialog";
 
 export default function AuthorTableSection() {
   const [authors, setAuthors] = useState<Author[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
 
   const fetchAuthors = async () => {
     const authors = await getAllAuthors();
@@ -42,8 +47,28 @@ export default function AuthorTableSection() {
     setOpenDialog(true);
   };
 
-  const handleDialogClose = () => {
+  const handleAddDialogClose = () => {
     setOpenDialog(false);
+    fetchAuthors();
+  };
+
+  const handleDeleteAuthorClick = (author: Author) => {
+    setSelectedAuthor(author);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteDialogClose = () => {
+    setDeleteDialogOpen(false);
+    fetchAuthors();
+  };
+
+  const handleEditAuthorClick = (author: Author) => {
+    setSelectedAuthor(author);
+    setEditDialogOpen(true);
+  };
+
+  const handleEditDialogClose = () => {
+    setEditDialogOpen(false);
     fetchAuthors();
   };
 
@@ -71,7 +96,7 @@ export default function AuthorTableSection() {
           >
             <AddIcon />
           </Button>
-          <AddAuthorDialog open={openDialog} onClose={handleDialogClose} />
+          <AddAuthorDialog open={openDialog} onClose={handleAddDialogClose} />
           <TableSearchBar />
         </Box>
       </Box>
@@ -123,13 +148,18 @@ export default function AuthorTableSection() {
                 />
               </TableCell>
               <TableCell sx={{ textAlign: "center" }}>
-                <Button variant="text" sx={{ color: "#000000" }}>
-                  <VisibilityOutlinedIcon />
-                </Button>
-                <Button variant="text" sx={{ color: "#000000" }}>
+                <Button
+                  variant="text"
+                  sx={{ color: "#000000" }}
+                  onClick={() => handleEditAuthorClick(author)}
+                >
                   <EditOutlinedIcon />
                 </Button>
-                <Button variant="text" sx={{ color: "#FF0000" }}>
+                <Button
+                  variant="text"
+                  sx={{ color: "#FF0000" }}
+                  onClick={() => handleDeleteAuthorClick(author)}
+                >
                   <DeleteOutlineOutlinedIcon />
                 </Button>
               </TableCell>
@@ -137,6 +167,16 @@ export default function AuthorTableSection() {
           ))}
         </TableBody>
       </Table>
+      <DeleteAuthorDialog
+        open={deleteDialogOpen}
+        author={selectedAuthor}
+        onClose={handleDeleteDialogClose}
+      />
+      <EditAuthorDialog
+        open={editDialogOpen}
+        onClose={handleEditDialogClose}
+        author={selectedAuthor}
+      />
     </SimpleCard>
   );
 }

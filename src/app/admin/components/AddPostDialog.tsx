@@ -75,9 +75,11 @@ export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
     try {
       const result = await addBlogWithImage(newPostContent, imageFile);
       console.log(result);
-      return result.success
-        ? ["success", "Blog added successfully!"]
-        : ["error", "Failed to add blog."];
+      return setAlert(
+        result.success
+          ? ["success", "Blog added successfully!"]
+          : ["error", "Failed to add blog."]
+      );
     } catch (error) {
       console.error("Error adding blog:", error);
       setAlert(["error", "Failed to add blog."]);
