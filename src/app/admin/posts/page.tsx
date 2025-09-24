@@ -19,25 +19,17 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { useEffect, useState } from "react";
-import { getAllBlogs } from "@/src/utils/getAllBlogs";
 import Blog from "@/src/constants/blogInterface";
 import EditPostDialog from "./components/EditPostDialog";
 import DeletePostDialog from "./components/DeletePostDialog";
 import Link from "next/link";
+import { useRealtimeBlogs } from "@/src/hooks/useRealtimeBlogs";
 
 export default function PostTableSection() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setDeleteDialogOpen] = useState(false);
-  async function fetchBlogs() {
-    const allBlogs = await getAllBlogs();
-    console.log(allBlogs);
-    setBlogs(allBlogs);
-  }
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
+  const { blogs } = useRealtimeBlogs();
 
   const handleEditBlogClick = (blog: Blog) => {
     setSelectedBlog(blog);
@@ -47,7 +39,6 @@ export default function PostTableSection() {
   const handleEditDialogClose = () => {
     setOpenEditDialog(false);
     setSelectedBlog(null);
-    fetchBlogs();
   };
 
   const handleDeleteBlogClick = (blog: Blog) => {
@@ -58,7 +49,6 @@ export default function PostTableSection() {
   const handleDeleteDialogClose = () => {
     setDeleteDialogOpen(false);
     setSelectedBlog(null);
-    fetchBlogs();
   };
 
   return (

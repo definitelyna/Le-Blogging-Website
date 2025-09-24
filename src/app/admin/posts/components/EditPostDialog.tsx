@@ -16,11 +16,9 @@ import {
 import { useContext, useEffect, useState } from "react";
 import Author from "@/src/constants/authorInterface";
 import AlertContext from "../../context/AlertContext";
-import { setAuthorById } from "@/src/utils/setAuthorById";
 import Blog from "@/src/constants/blogInterface";
 import { setBlogById } from "@/src/utils/setBlogById";
 import { getAllAuthors } from "@/src/utils/getAllAuthor";
-import { getAllBlogs } from "@/src/utils/getAllBlogs";
 
 interface EditPostDialogProps {
   open: boolean;

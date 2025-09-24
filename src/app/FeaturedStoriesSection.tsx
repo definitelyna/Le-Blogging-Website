@@ -2,32 +2,24 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import Blog from "../constants/blogInterface";
-import { getAllBlogs } from "../utils/getAllBlogs";
 import BlogCard from "../components/BlogCard";
+import { useRealtimeBlogs } from "../hooks/useRealtimeBlogs";
 
 export default function FeaturedStoriesSection() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const { blogs } = useRealtimeBlogs();
+  const [displayedBlogs, setDisplayedBlogs] = useState<Blog[]>([]);
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const data = await getAllBlogs();
-        const latestPosts = data
-          .sort((a, b) => b.datePublished.getTime() - a.datePublished.getTime())
-          .slice(0, 3);
-        console.log("Latest posts:", latestPosts);
-        if (latestPosts) {
-          setBlogs(latestPosts);
-        } else {
-          console.error("No data found");
-        }
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      }
-    };
+    const latestPosts = blogs
+      .sort((a, b) => b.datePublished.getTime() - a.datePublished.getTime())
+      .slice(0, 3);
 
-    fetchBlogs();
-  }, []);
+    if (latestPosts) {
+      setDisplayedBlogs(latestPosts);
+    } else {
+      console.error("No data found");
+    }
+  }, [blogs]);
 
   return (
     <Box
@@ -39,7 +31,7 @@ export default function FeaturedStoriesSection() {
         mt: 5,
       }}
     >
-      {blogs.map((blog, index) => (
+      {displayedBlogs.map((blog, index) => (
         <BlogCard key={index} blog={blog} />
       ))}
     </Box>

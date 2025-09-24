@@ -7,11 +7,13 @@ import BlogCard from "@/src/components/BlogCard";
 import Link from "next/link";
 
 interface BlogSectionProps {
+  allBlogs?: Blog[] | undefined;
   displayBlogs?: Blog[] | undefined;
   setDisplayBlogs?: (blogs: Blog[] | undefined) => void;
 }
 
 export default function BlogSection({
+  allBlogs,
   displayBlogs,
   setDisplayBlogs,
 }: BlogSectionProps) {
@@ -21,7 +23,7 @@ export default function BlogSection({
 
   useEffect(() => {
     const newCategories: string[] = Array.from(
-      new Set(displayBlogs?.map((blog) => blog.category))
+      new Set(allBlogs?.map((blog) => blog.category))
     );
 
     newCategories.unshift("All");
@@ -34,8 +36,8 @@ export default function BlogSection({
     setDisplayBlogs
       ? setDisplayBlogs(
           category === "All"
-            ? displayBlogs
-            : displayBlogs?.filter((blog) => blog.category === category)
+            ? allBlogs
+            : allBlogs?.filter((blog) => blog.category === category)
         )
       : null;
   };

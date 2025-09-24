@@ -20,8 +20,8 @@ import Author from "@/src/constants/authorInterface";
 import blogInterface from "@/src/constants/blogInterface";
 import { addBlogWithImage } from "@/src/utils/addBlog";
 import AlertContext from "../context/AlertContext";
-import { getAllBlogs } from "@/src/utils/getAllBlogs";
 import { getAllAuthors } from "@/src/utils/getAllAuthor";
+import { useRealtimeBlogs } from "@/src/hooks/useRealtimeBlogs";
 
 interface AddPostDialogProps {
   open: boolean;
@@ -31,24 +31,18 @@ interface AddPostDialogProps {
 export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
   const [authors, setAuthors] = useState<Author[]>([]);
   const [categories, setCategories] = useState<Set<string>>(new Set());
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const { blogs } = useRealtimeBlogs();
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      const blogsData = await getAllBlogs();
-      setCategories(new Set(blogsData.map((blog) => blog.category)));
-      console.log(new Set(blogsData.map((blog) => blog.category)));
-      setBlogs(blogsData);
-    };
+    setCategories(new Set(blogs.map((blog) => blog.category)));
 
     const fetchAuthors = async () => {
       const authorsData = await getAllAuthors();
       setAuthors(authorsData);
     };
 
-    fetchBlogs();
     fetchAuthors();
-  }, []);
+  }, [blogs]);
 
   const { setAlert } = useContext(AlertContext);
   const [postContent, setPostContent] = useState<Blog>({} as Blog);
@@ -75,7 +69,7 @@ export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
     try {
       const result = await addBlogWithImage(newPostContent, imageFile);
       console.log(result);
-      return setAlert(
+      setAlert(
         result.success
           ? ["success", "Blog added successfully!"]
           : ["error", "Failed to add blog."]
@@ -86,11 +80,11 @@ export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
     }
 
     setIsSubmitting(false);
-    onClose();
     setPostContent({} as Blog);
     setImageFile(undefined);
     setImagePreview(null);
     setTagsInput("");
+    onClose();
   };
 
   return (
