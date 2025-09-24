@@ -21,19 +21,31 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import Author from "@/src/constants/authorInterface";
 import { useEffect, useState } from "react";
 import { getAllAuthors } from "@/src/utils/getAllAuthor";
+import AddIcon from "@mui/icons-material/Add";
+import AddAuthorDialog from "./AddAuthorDialog";
 
 export default function AuthorTableSection() {
   const [authors, setAuthors] = useState<Author[]>([]);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const fetchAuthors = async () => {
+    const authors = await getAllAuthors();
+    setAuthors(authors);
+    console.log("Fetched authors:", authors);
+  };
 
   useEffect(() => {
-    const fetchAuthors = async () => {
-      const authors = await getAllAuthors();
-      setAuthors(authors);
-      console.log("Fetched authors:", authors);
-    };
-
     fetchAuthors();
   }, []);
+
+  const handleAddAuthorClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    fetchAuthors();
+  };
 
   return (
     <SimpleCard
@@ -48,7 +60,20 @@ export default function AuthorTableSection() {
         }}
       >
         <Typography variant="body1">Manage Authors</Typography>
-        <TableSearchBar />
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Button
+            variant="text"
+            size="large"
+            onClick={handleAddAuthorClick}
+            sx={{
+              color: "#000000",
+            }}
+          >
+            <AddIcon />
+          </Button>
+          <AddAuthorDialog open={openDialog} onClose={handleDialogClose} />
+          <TableSearchBar />
+        </Box>
       </Box>
 
       <Table
