@@ -1,22 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Blog from "@/src/constants/blogInterface";
-import { Box, Chip } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import BlogCard from "@/src/components/BlogCard";
-import Link from "next/link";
+import DisplayBlogsContext from "./context/DisplayBlogsContext";
 
-interface BlogSectionProps {
-  allBlogs?: Blog[] | undefined;
-  displayBlogs?: Blog[] | undefined;
-  setDisplayBlogs?: (blogs: Blog[] | undefined) => void;
-}
+export default function BlogSection() {
+  const { displayBlogs, setDisplayBlogs, allBlogs } =
+    useContext(DisplayBlogsContext);
 
-export default function BlogSection({
-  allBlogs,
-  displayBlogs,
-  setDisplayBlogs,
-}: BlogSectionProps) {
   const [categories, setCategories] = useState<string[] | undefined>(undefined);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -29,7 +22,7 @@ export default function BlogSection({
     newCategories.unshift("All");
 
     setCategories(newCategories);
-  }, [displayBlogs]);
+  }, [allBlogs]);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -76,9 +69,11 @@ export default function BlogSection({
           gap: 4,
         }}
       >
-        {displayBlogs?.length === 0
-          ? "No blogs found"
-          : displayBlogs?.map((blog) => <BlogCard blog={blog} key={blog.id} />)}
+        {displayBlogs?.length === 0 ? (
+          <Typography>No blogs found</Typography>
+        ) : (
+          displayBlogs?.map((blog) => <BlogCard blog={blog} key={blog.id} />)
+        )}
       </Box>
     </Box>
   );

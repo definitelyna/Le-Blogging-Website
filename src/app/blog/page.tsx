@@ -2,11 +2,11 @@ import { Box, Typography } from "@mui/material";
 import SearchBar from "./SearchBar";
 import BlogSection from "./BlogSection";
 import Blog from "@/src/constants/blogInterface";
-import ClientWrapper from "./ClientWrapper";
+import DisplayBlogsContextProvider from "./context/DisplayBlogsContextProvider";
 
 export default function BlogPage() {
   return (
-    <>
+    <DisplayBlogsContextProvider>
       <Box
         sx={{
           display: "flex",
@@ -29,14 +29,10 @@ export default function BlogPage() {
         >
           Explore diverse perspectives from the global Vietnamese community
         </Typography>
-        <ClientWrapper>
-          <SearchBar sx={{ width: 500, height: 45, bgcolor: "#F3F3F5" }} />
-        </ClientWrapper>
+        <SearchBar sx={{ width: 500, height: 45, bgcolor: "#F3F3F5" }} />
       </Box>
 
-      <ClientWrapper>
-        <BlogSection />
-      </ClientWrapper>
-    </>
+      <BlogSection />
+    </DisplayBlogsContextProvider>
   );
 }

@@ -3,20 +3,37 @@
 import { TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Blog from "@/src/constants/blogInterface";
+import { useContext } from "react";
+import DisplayBlogsContext from "./context/DisplayBlogsContext";
 
 interface SearchBarProps {
   sx?: object;
-  displayBlogs?: Blog[];
-  setDisplayBlogs?: (blogs: Blog[]) => void;
 }
 
-export default function SearchBar({
-  sx,
-  displayBlogs,
-  setDisplayBlogs,
-}: SearchBarProps) {
+export default function SearchBar({ sx }: SearchBarProps) {
+  const { allBlogs, setDisplayBlogs } = useContext(DisplayBlogsContext);
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    const query = event.target.value.toLowerCase();
+
+    if (!query) {
+      setDisplayBlogs ? setDisplayBlogs(allBlogs ? allBlogs : []) : null;
+      return;
+    }
+    if (allBlogs) {
+      console.log("Searching for:", query);
+      const filteredBlogs = allBlogs.filter(
+        (blog) =>
+          blog.title.toLowerCase().includes(query) ||
+          blog.author.name.toLowerCase().includes(query) ||
+          blog.category.toLowerCase().includes(query)
+      );
+
+      console.log(allBlogs)
+
+      console.log(filteredBlogs);
+      setDisplayBlogs(filteredBlogs);
+    }
   };
 
   return (

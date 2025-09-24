@@ -29,6 +29,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
             transform: "scale(1.01)",
             boxShadow: "0 4px 20px rgba(0,0,0,0.10)",
           },
+          height: "fit-content",
         }}
       >
         <Card sx={{ maxWidth: 370, minHeight: 550, position: "relative" }}>
