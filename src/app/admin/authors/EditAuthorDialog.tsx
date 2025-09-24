@@ -15,17 +15,17 @@ import AlertContext from "../context/AlertContext";
 import { addAuthorWithImage } from "@/src/utils/addAuthor";
 import { setAuthorById } from "@/src/utils/setAuthorById";
 
-interface editAuthorDialogProps {
+interface EditAuthorDialogProps {
   open: boolean;
   onClose: () => void;
   author: Author | null;
 }
 
-export default function editAuthorDialog({
+export default function EditAuthorDialog({
   open,
   onClose,
   author,
-}: editAuthorDialogProps) {
+}: EditAuthorDialogProps) {
   const { setAlert } = useContext(AlertContext);
   const [authorInput, setAuthorInput] = useState<Author>({
     ...author,

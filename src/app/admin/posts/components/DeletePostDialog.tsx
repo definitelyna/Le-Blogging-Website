@@ -10,21 +10,21 @@ import {
   Typography,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import Author from "@/src/constants/authorInterface";
-import AlertContext from "../context/AlertContext";
-import { deleteAuthorById } from "@/src/utils/deleteAuthorById";
+import AlertContext from "../../context/AlertContext";
+import { deleteBlogById } from "@/src/utils/deleteBlogById";
+import Blog from "@/src/constants/blogInterface";
 
-interface DeleteAuthorDialogProps {
+interface DeletePostDialogProps {
   open: boolean;
   onClose: () => void;
-  author: Author | null;
+  post: Blog | null;
 }
 
-export default function DeleteAuthorDialog({
+export default function DeletePostDialog({
   open,
   onClose,
-  author,
-}: DeleteAuthorDialogProps) {
+  post,
+}: DeletePostDialogProps) {
   const { setAlert } = useContext(AlertContext);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,16 +33,16 @@ export default function DeleteAuthorDialog({
     setIsSubmitting(true);
 
     try {
-      const result = await deleteAuthorById(author?.id);
+      const result = await deleteBlogById(post?.id);
       console.log(result);
       setAlert(
         result.success
-          ? ["success", "Author deleted successfully!"]
-          : ["error", "Failed to delete author."]
+          ? ["success", "post deleted successfully!"]
+          : ["error", "Failed to delete post."]
       );
     } catch (error) {
-      console.error("Error deleting author:", error);
-      setAlert(["error", "Failed to delete author."]);
+      console.error("Error deleting post:", error);
+      setAlert(["error", "Failed to delete post."]);
     }
 
     setIsSubmitting(false);
@@ -61,12 +61,12 @@ export default function DeleteAuthorDialog({
         }}
       >
         <Typography variant="h6" fontWeight={500}>
-          Are you sure you want to delete author "{author?.name}"?
+          Are you sure you want to delete post "{post?.title}"?
         </Typography>
-        <Typography variant="body1" fontWeight={500}>
-          Bio: {author?.bio}
+        <Typography variant="body1" fontWeight={400} color="text.secondary">
+          Description: {post?.description}
         </Typography>
-        <Typography variant="body1" fontWeight={500}>
+        <Typography variant="body1" fontWeight={500} color="error">
           This action cannot be undone.
         </Typography>
         <Button

@@ -9,7 +9,6 @@ import {
 import AlertContextProvider from "./context/AlertContextProvider";
 import AddPostButton from "./components/AddPostButton";
 import SimpleCard from "@/src/components/SimpleCard";
-import PostTableSection from "./posts/components/PostTableSection";
 import Link from "next/link";
 
 interface AdminPageProps {

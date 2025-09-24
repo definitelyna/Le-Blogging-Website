@@ -21,59 +21,45 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import { useEffect, useState } from "react";
 import { getAllBlogs } from "@/src/utils/getAllBlogs";
 import Blog from "@/src/constants/blogInterface";
-
-// const blogs = [
-//   {
-//     id: "1",
-//     author: "Collin Camerer",
-//     title: "The Rise of Vietnamese Entrepreneurs in the Global Market",
-//     datePublished: new Date("2023-10-01"),
-//     description:
-//       "Explore how Vietnamese entrepreneurs are making waves in the global market with innovative startups and business ventures.",
-//     category: "Entrepreneurship",
-//     tags: ["Vietnam", "Entrepreneurship", "Global Market"],
-//     imageUrl:
-//       "https://caltech-prod.s3.amazonaws.com/main/images/CollinCamerer-ShortSelling-0.2e16d0ba.fill-1600x810-c100.jpg",
-//     content: "Full content of the blog post goes here...",
-//   },
-//   {
-//     id: "2",
-//     author: "Linh Tran",
-//     title: "Cultural Festivals Celebrating Vietnamese Heritage Worldwide",
-//     datePublished: new Date("2023-09-15"),
-//     description:
-//       "A look at various cultural festivals around the world that celebrate Vietnamese heritage and traditions.",
-//     category: "Culture",
-//     tags: ["Vietnam", "Culture", "Festivals"],
-//     imageUrl:
-//       "https://special.vietnamplus.vn/wp-content/uploads/2025/02/vna_potal_lang_lua_van_phuc_-_net_dep_van_hoa_truyen_thong_viet_nam_140239236_4099112-1620x1080.jpg",
-//     content: "Full content of the blog post goes here...",
-//   },
-//   {
-//     id: "3",
-//     author: "Minh Nguyen",
-//     title: "Vietnamese Cuisine: A Culinary Journey Across Continents",
-//     datePublished: new Date("2023-08-30"),
-//     description:
-//       "An exploration of Vietnamese cuisine and its influence across different continents.",
-//     category: "Food",
-//     tags: ["Vietnam", "Cuisine", "Food"],
-//     imageUrl: "https://www.recipetineats.com/tachyon/2019/04/Beef-Pho_6.jpg",
-//     content: "Full content of the blog post goes here...",
-//   },
-// ];
+import EditPostDialog from "./components/EditPostDialog";
+import DeletePostDialog from "./components/DeletePostDialog";
+import Link from "next/link";
 
 export default function PostTableSection() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openDeleteDialog, setDeleteDialogOpen] = useState(false);
+  async function fetchBlogs() {
+    const allBlogs = await getAllBlogs();
+    console.log(allBlogs);
+    setBlogs(allBlogs);
+  }
   useEffect(() => {
-    async function fetchBlogs() {
-      const allBlogs = await getAllBlogs();
-      console.log(allBlogs);
-      setBlogs(allBlogs);
-    }
-
     fetchBlogs();
   }, []);
+
+  const handleEditBlogClick = (blog: Blog) => {
+    setSelectedBlog(blog);
+    setOpenEditDialog(true);
+  };
+
+  const handleEditDialogClose = () => {
+    setOpenEditDialog(false);
+    setSelectedBlog(null);
+    fetchBlogs();
+  };
+
+  const handleDeleteBlogClick = (blog: Blog) => {
+    setSelectedBlog(blog);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteDialogClose = () => {
+    setDeleteDialogOpen(false);
+    setSelectedBlog(null);
+    fetchBlogs();
+  };
 
   return (
     <SimpleCard
@@ -131,13 +117,27 @@ export default function PostTableSection() {
                 </Box>
               </TableCell>
               <TableCell>
-                <Button variant="text" sx={{ color: "#000000" }}>
-                  <VisibilityOutlinedIcon />
-                </Button>
-                <Button variant="text" sx={{ color: "#000000" }}>
+                <Link
+                  href={`/blog/${blog.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="text" sx={{ color: "#000000" }}>
+                    <VisibilityOutlinedIcon />
+                  </Button>
+                </Link>
+                <Button
+                  variant="text"
+                  sx={{ color: "#000000" }}
+                  onClick={() => handleEditBlogClick(blog)}
+                >
                   <EditOutlinedIcon />
                 </Button>
-                <Button variant="text" sx={{ color: "#FF0000" }}>
+                <Button
+                  variant="text"
+                  sx={{ color: "#FF0000" }}
+                  onClick={() => handleDeleteBlogClick(blog)}
+                >
                   <DeleteOutlineOutlinedIcon />
                 </Button>
               </TableCell>
@@ -145,6 +145,17 @@ export default function PostTableSection() {
           ))}
         </TableBody>
       </Table>
+      <EditPostDialog
+        open={openEditDialog}
+        onClose={handleEditDialogClose}
+        blog={selectedBlog}
+        allBlogs={blogs}
+      />
+      <DeletePostDialog
+        open={openDeleteDialog}
+        onClose={handleDeleteDialogClose}
+        post={selectedBlog}
+      />
     </SimpleCard>
   );
 }
