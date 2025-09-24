@@ -16,7 +16,7 @@ export default function TableSearchBar({ sx }: TableSearchBarProps) {
   return (
     <TextField
       onChange={handleSearch}
-      placeholder="Search posts..."
+      placeholder="Search"
       InputProps={{
         startAdornment: <SearchIcon sx={{ color: "text.secondary", mr: 2 }} />,
       }}

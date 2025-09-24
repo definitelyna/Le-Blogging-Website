@@ -12,7 +12,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import TableSearchBar from "../components/TableSearchBar";
+import SearchBar from "./components/SearchBar";
+
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -30,6 +31,11 @@ export default function PostTableSection() {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setDeleteDialogOpen] = useState(false);
   const { blogs } = useRealtimeBlogs();
+  const [displayBlogs, setDisplayBlogs] = useState<Blog[]>([]);
+
+  useEffect(() => {
+    setDisplayBlogs(blogs);
+  }, [blogs]);
 
   const handleEditBlogClick = (blog: Blog) => {
     setSelectedBlog(blog);
@@ -64,7 +70,11 @@ export default function PostTableSection() {
         }}
       >
         <Typography variant="body1">Manage Posts</Typography>
-        <TableSearchBar />
+        <SearchBar
+          allBlogs={blogs}
+          setDisplayBlogs={setDisplayBlogs}
+          sx={{ minWidth: 400 }}
+        />
       </Box>
 
       <Table sx={{ border: "1px solid #EDEEF2", borderRadius: 10 }}>
@@ -78,7 +88,7 @@ export default function PostTableSection() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {blogs.map((blog) => (
+          {displayBlogs.map((blog) => (
             <TableRow key={blog.id}>
               <TableCell sx={{ fontWeight: 500 }}>{blog.title}</TableCell>
               <TableCell>
