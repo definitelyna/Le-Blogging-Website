@@ -31,30 +31,28 @@ export default function Navigator() {
   const currentRoute = usePathname();
   return (
     <Box sx={{ display: "flex", flexDirection: "row", gap: 4 }}>
-      <StyledButton value="/" selected={currentRoute === "/"}>
-        <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
+      <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <StyledButton value="/" selected={currentRoute === "/"}>
           <Typography variant="h6" textTransform="none">
             Home
           </Typography>
-        </Link>
-      </StyledButton>
-      <StyledButton value="/blog" selected={currentRoute === "/blog"}>
-        <Link href="/blog" style={{ textDecoration: "none", color: "inherit" }}>
+        </StyledButton>
+      </Link>
+      <Link href="/blog" style={{ textDecoration: "none", color: "inherit" }}>
+        <StyledButton value="/blog" selected={currentRoute === "/blog"}>
           <Typography variant="h6" textTransform="none">
             Blog
           </Typography>
-        </Link>
-      </StyledButton>
-      <StyledButton value="/admin" selected={currentRoute.includes("/admin")}>
-        <Link
-          href="/admin"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        </StyledButton>
+      </Link>
+
+      <Link href="/admin" style={{ textDecoration: "none", color: "inherit" }}>
+        <StyledButton value="/admin" selected={currentRoute.includes("/admin")}>
           <Typography variant="h6" textTransform="none">
             Admin
           </Typography>
-        </Link>
-      </StyledButton>
+        </StyledButton>
+      </Link>
     </Box>
   );
 }
