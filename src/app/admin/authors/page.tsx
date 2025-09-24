@@ -13,7 +13,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import TableSearchBar from "../components/TableSearchBar";
+import SearchBar from "./components/SearchBar";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -22,26 +22,23 @@ import Author from "@/src/constants/authorInterface";
 import { useEffect, useState } from "react";
 import { getAllAuthors } from "@/src/utils/getAllAuthor";
 import AddIcon from "@mui/icons-material/Add";
-import AddAuthorDialog from "./AddAuthorDialog";
-import DeleteAuthorDialog from "./DeleteAuthorDialog";
-import EditAuthorDialog from "./EditAuthorDialog";
+import AddAuthorDialog from "./components/AddAuthorDialog";
+import DeleteAuthorDialog from "./components/DeleteAuthorDialog";
+import EditAuthorDialog from "./components/EditAuthorDialog";
+import { useRealtimeAuthors } from "@/src/hooks/useRealtimeAuthors";
 
 export default function AuthorTableSection() {
-  const [authors, setAuthors] = useState<Author[]>([]);
+  const [displayAuthors, setDisplayAuthors] = useState<Author[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-  const fetchAuthors = async () => {
-    const authors = await getAllAuthors();
-    setAuthors(authors);
-    console.log("Fetched authors:", authors);
-  };
+  const { authors } = useRealtimeAuthors();
 
   useEffect(() => {
-    fetchAuthors();
-  }, []);
+    setDisplayAuthors(authors);
+  }, [authors]);
 
   const handleAddAuthorClick = () => {
     setOpenDialog(true);
@@ -49,7 +46,6 @@ export default function AuthorTableSection() {
 
   const handleAddDialogClose = () => {
     setOpenDialog(false);
-    fetchAuthors();
   };
 
   const handleDeleteAuthorClick = (author: Author) => {
@@ -59,7 +55,6 @@ export default function AuthorTableSection() {
 
   const handleDeleteDialogClose = () => {
     setDeleteDialogOpen(false);
-    fetchAuthors();
   };
 
   const handleEditAuthorClick = (author: Author) => {
@@ -69,7 +64,6 @@ export default function AuthorTableSection() {
 
   const handleEditDialogClose = () => {
     setEditDialogOpen(false);
-    fetchAuthors();
   };
 
   return (
@@ -97,7 +91,11 @@ export default function AuthorTableSection() {
             <AddIcon />
           </Button>
           <AddAuthorDialog open={openDialog} onClose={handleAddDialogClose} />
-          <TableSearchBar />
+          <SearchBar
+            allAuthors={authors}
+            setDisplayAuthors={setDisplayAuthors}
+            sx={{ minWidth: 300 }}
+          />
         </Box>
       </Box>
 
@@ -117,7 +115,7 @@ export default function AuthorTableSection() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {authors.map((author) => (
+          {displayAuthors.map((author) => (
             <TableRow key={author.id}>
               <TableCell sx={{ fontWeight: 500 }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

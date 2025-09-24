@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import Author from "@/src/constants/authorInterface";
-import AlertContext from "../context/AlertContext";
+import AlertContext from "../../context/AlertContext";
 import { deleteAuthorById } from "@/src/utils/deleteAuthorById";
 
 interface DeleteAuthorDialogProps {
