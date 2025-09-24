@@ -5,6 +5,6 @@ interface BlogPostPageProps {
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const id = params.slug;
+  const id = await params.slug;
   return <PostSection id={id} />;
 }
