@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Autocomplete,
   Box,
   Button,
   CardMedia,
@@ -19,91 +20,8 @@ import Author from "@/src/constants/authorInterface";
 import blogInterface from "@/src/constants/blogInterface";
 import { addBlogWithImage } from "@/src/utils/addBlog";
 import AlertContext from "../context/AlertContext";
-
-const blogs: Blog[] = [
-  {
-    id: "1",
-    author: {
-      id: "1",
-      name: "Collin Camerer",
-      bio: "Collin Camerer is a seasoned entrepreneur with over 15 years of experience in the tech industry. He has founded multiple successful startups and is passionate about fostering innovation and supporting emerging entrepreneurs.",
-      profilePictureUrl:
-        "https://caltech-prod.s3.amazonaws.com/main/images/CollinCamerer-ShortSelling-0.2e16d0ba.fill-1600x810-c100.jpg",
-    },
-    title: "The Rise of Vietnamese Entrepreneurs in the Global Market",
-    datePublished: new Date("2023-10-01"),
-    description:
-      "Explore how Vietnamese entrepreneurs are making waves in the global market with innovative startups and business ventures.",
-    category: "Entrepreneurship",
-    tags: ["Vietnam", "Entrepreneurship", "Global Market"],
-    imageUrl:
-      "https://caltech-prod.s3.amazonaws.com/main/images/CollinCamerer-ShortSelling-0.2e16d0ba.fill-1600x810-c100.jpg",
-    content: "Full content of the blog post goes here...",
-  },
-  {
-    id: "2",
-    author: {
-      id: "2",
-      name: "Linh Tran",
-      bio: "Linh Tran is a cultural anthropologist and writer who has spent over a decade studying Vietnamese culture and traditions. She has published numerous articles and books on the subject and is dedicated to promoting cultural understanding.",
-      profilePictureUrl:
-        "https://special.vietnamplus.vn/wp-content/uploads/2025/02/vna_potal_lang_lua_van_phuc_-_net_dep_van_hoa_truyen_thong_viet_nam_140239236_4099112-1620x1080.jpg",
-    },
-    title: "Cultural Festivals Celebrating Vietnamese Heritage Worldwide",
-    datePublished: new Date("2023-09-15"),
-    description:
-      "A look at various cultural festivals around the world that celebrate Vietnamese heritage and traditions.",
-    category: "Culture",
-    tags: ["Vietnam", "Culture", "Festivals"],
-    imageUrl:
-      "https://special.vietnamplus.vn/wp-content/uploads/2025/02/vna_potal_lang_lua_van_phuc_-_net_dep_van_hoa_truyen_thong_viet_nam_140239236_4099112-1620x1080.jpg",
-    content: "Full content of the blog post goes here...",
-  },
-  {
-    id: "3",
-    author: {
-      id: "3",
-      name: "Minh Nguyen",
-      bio: "Minh Nguyen is a food critic and writer with a deep appreciation for Vietnamese cuisine. He has traveled extensively throughout Vietnam, exploring its diverse culinary landscape and sharing his experiences through his writing.",
-      profilePictureUrl:
-        "https://www.recipetineats.com/tachyon/2019/04/Beef-Pho_6.jpg",
-    },
-    title: "Vietnamese Cuisine: A Culinary Journey Across Continents",
-    datePublished: new Date("2023-08-30"),
-    description:
-      "An exploration of Vietnamese cuisine and its influence across different continents.",
-    category: "Food",
-    tags: ["Vietnam", "Cuisine", "Food"],
-    imageUrl: "https://www.recipetineats.com/tachyon/2019/04/Beef-Pho_6.jpg",
-    content: "Full content of the blog post goes here...",
-  },
-];
-
-const authors: Author[] = [
-  {
-    id: "1",
-    name: "Collin Camerer",
-    bio: "Collin Camerer is a seasoned entrepreneur with over 15 years of experience in the tech industry. He has founded multiple successful startups and is passionate about fostering innovation and supporting emerging entrepreneurs.",
-    profilePictureUrl:
-      "https://caltech-prod.s3.amazonaws.com/main/images/CollinCamerer-ShortSelling-0.2e16d0ba.fill-1600x810-c100.jpg",
-  },
-  {
-    id: "2",
-    name: "Linh Tran",
-    bio: "Linh Tran is a cultural anthropologist and writer who has spent over a decade studying Vietnamese culture and traditions. She has published numerous articles and books on the subject and is dedicated to promoting cultural understanding.",
-    profilePictureUrl:
-      "https://special.vietnamplus.vn/wp-content/uploads/2025/02/vna_potal_lang_lua_van_phuc_-_net_dep_van_hoa_truyen_thong_viet_nam_140239236_4099112-1620x1080.jpg",
-  },
-  {
-    id: "3",
-    name: "Minh Nguyen",
-    bio: "Minh Nguyen is a food critic and writer with a deep appreciation for Vietnamese cuisine. He has traveled extensively throughout Vietnam, exploring its diverse culinary landscape and sharing his experiences through his writing.",
-    profilePictureUrl:
-      "https://www.recipetineats.com/tachyon/2019/04/Beef-Pho_6.jpg",
-  },
-];
-
-const categories = new Set(blogs.map((blog) => blog.category));
+import { getAllBlogs } from "@/src/utils/getAllBlogs";
+import { getAllAuthors } from "@/src/utils/getAllAuthor";
 
 interface AddPostDialogProps {
   open: boolean;
@@ -111,6 +29,27 @@ interface AddPostDialogProps {
 }
 
 export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
+  const [authors, setAuthors] = useState<Author[]>([]);
+  const [categories, setCategories] = useState<Set<string>>(new Set());
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogsData = await getAllBlogs();
+      setCategories(new Set(blogsData.map((blog) => blog.category)));
+      console.log(new Set(blogsData.map((blog) => blog.category)));
+      setBlogs(blogsData);
+    };
+
+    const fetchAuthors = async () => {
+      const authorsData = await getAllAuthors();
+      setAuthors(authorsData);
+    };
+
+    fetchBlogs();
+    fetchAuthors();
+  }, []);
+
   const { setAlert } = useContext(AlertContext);
   const [postContent, setPostContent] = useState<Blog>({} as Blog);
   const [imageFile, setImageFile] = useState<File>();
@@ -210,20 +149,22 @@ export default function AddPostDialog({ open, onClose }: AddPostDialogProps) {
           <Typography variant="body1" fontWeight={500}>
             Category
           </Typography>
-          <Select
-            variant="outlined"
-            fullWidth
-            value={postContent?.category}
-            onChange={(e) =>
-              setPostContent({ ...postContent, category: e.target.value })
-            }
-          >
-            {Array.from(categories).map((category) => (
-              <MenuItem key={category} value={category}>
-                {category}
-              </MenuItem>
-            ))}
-          </Select>
+          <Autocomplete
+            freeSolo
+            options={Array.from(categories)}
+            value={postContent?.category || ""}
+            onInputChange={(event, newValue) => {
+              setPostContent({ ...postContent, category: newValue });
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                fullWidth
+                placeholder="Enter or select category"
+              />
+            )}
+          />
         </Box>
 
         <Box>
