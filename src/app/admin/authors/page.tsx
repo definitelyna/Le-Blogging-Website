@@ -24,8 +24,19 @@ import AddAuthorDialog from "./components/AddAuthorDialog";
 import DeleteAuthorDialog from "./components/DeleteAuthorDialog";
 import EditAuthorDialog from "./components/EditAuthorDialog";
 import { useRealtimeAuthors } from "@/src/hooks/useRealtimeAuthors";
+import { auth } from "@/src/utils/firebase";
+import { useRouter } from "next/navigation";
 
 export default function AuthorTableSection() {
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log("Current user:", auth.currentUser);
+    if (!auth.currentUser) {
+      router.push("/admin");
+    }
+  }, []);
+
   const [displayAuthors, setDisplayAuthors] = useState<Author[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null);
