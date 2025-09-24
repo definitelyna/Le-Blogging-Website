@@ -1,12 +1,13 @@
 {
-  "hosting": {
-    "public": "public",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/dist/index.html"
-      }
+  "apphosting": {
+    "backendId": "globally-vietnamese",
+    "rootDir": "/",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "functions"
     ]
   }
 }

@@ -14,13 +14,11 @@ import {
   Typography,
 } from "@mui/material";
 import SearchBar from "./components/SearchBar";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import Author from "@/src/constants/authorInterface";
 import { useEffect, useState } from "react";
-import { getAllAuthors } from "@/src/utils/getAllAuthor";
 import AddIcon from "@mui/icons-material/Add";
 import AddAuthorDialog from "./components/AddAuthorDialog";
 import DeleteAuthorDialog from "./components/DeleteAuthorDialog";
