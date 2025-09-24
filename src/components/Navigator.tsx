@@ -45,7 +45,7 @@ export default function Navigator() {
           </Typography>
         </Link>
       </StyledButton>
-      <StyledButton value="/admin" selected={currentRoute === "/admin"}>
+      <StyledButton value="/admin" selected={currentRoute.includes("/admin")}>
         <Link
           href="/admin"
           style={{ textDecoration: "none", color: "inherit" }}
