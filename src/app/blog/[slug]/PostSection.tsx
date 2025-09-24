@@ -5,28 +5,19 @@ import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import Blog from "@/src/constants/blogInterface";
-import { getBlogById } from "@/src/utils/getBlogById";
-import { useEffect, useState } from "react";
+import { useFetchBlogById } from "@/src/hooks/useFetchBlogById";
 
 interface PostSectionProps {
   id: string;
 }
 
 export default function PostSection({ id }: PostSectionProps) {
-  const [blogPost, setBlogPost] = useState<Blog | null>(null);
+  const { blog, loading, error } = useFetchBlogById(id);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      const post = await getBlogById(id);
-      setBlogPost(post);
-    };
-
-    fetchPost();
-  }, [id]);
-
-  if (!blogPost) {
-    return <div>Blog Post Not Found</div>;
+  if (!blog || loading) {
+    return null;
+  } else if (error) {
+    return <Typography variant="h6">Error loading blog post.</Typography>;
   }
 
   return (
@@ -71,12 +62,12 @@ export default function PostSection({ id }: PostSectionProps) {
         }}
       >
         <Chip
-          label={blogPost.category}
+          label={blog.category}
           sx={{ width: "fit-content", fontWeight: 500 }}
         />
-        <Typography variant="h3">{blogPost.title}</Typography>
+        <Typography variant="h3">{blog.title}</Typography>
         <Typography variant="h6" color="text.secondary" fontWeight={400}>
-          {blogPost.description}
+          {blog.description}
         </Typography>
         <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
@@ -89,7 +80,7 @@ export default function PostSection({ id }: PostSectionProps) {
               color="text.secondary"
               fontWeight={400}
             >
-              {blogPost.author.name}
+              {blog.author.name}
             </Typography>
           </Box>
 
@@ -103,7 +94,7 @@ export default function PostSection({ id }: PostSectionProps) {
               color="text.secondary"
               fontWeight={400}
             >
-              {blogPost.datePublished.toDateString()}
+              {blog.datePublished.toDateString()}
             </Typography>
           </Box>
         </Box>
@@ -111,8 +102,8 @@ export default function PostSection({ id }: PostSectionProps) {
         <CardMedia
           component="img"
           sx={{ borderRadius: 2, maxHeight: 600, objectFit: "cover" }}
-          image={blogPost.imageUrl}
-          alt={blogPost.title}
+          image={blog.imageUrl}
+          alt={blog.title}
         />
 
         <Typography
@@ -127,7 +118,7 @@ export default function PostSection({ id }: PostSectionProps) {
             pb: 5,
           }}
         >
-          {blogPost.content}
+          {blog.content}
         </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -136,7 +127,7 @@ export default function PostSection({ id }: PostSectionProps) {
           </Typography>
 
           <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-            {blogPost.tags.map((tag) => (
+            {blog.tags.map((tag) => (
               <Chip
                 key={tag}
                 label={tag}
@@ -168,15 +159,15 @@ export default function PostSection({ id }: PostSectionProps) {
               borderRadius: "50%",
               objectFit: "cover",
             }}
-            image={blogPost.author?.profilePictureUrl}
-            alt={blogPost.author?.name}
+            image={blog.author?.profilePictureUrl}
+            alt={blog.author?.name}
           />
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
             <Typography variant="h6" fontWeight={400}>
-              {blogPost.author?.name}
+              {blog.author?.name}
             </Typography>
             <Typography variant="body2" color="text.secondary" fontWeight={400}>
-              {blogPost.author?.bio}
+              {blog.author?.bio}
             </Typography>
           </Box>
         </Box>
