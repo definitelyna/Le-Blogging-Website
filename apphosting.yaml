@@ -1,4 +1,11 @@
 # Setting# Environment variables and secrets.
+runConfig:
+  minInstances: 0
+  maxInstances: 100
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
+
 env:
   - variable: NEXT_PUBLIC_FIREBASE_API_KEY
     value: AIzaSyCdtGNSTS6C26xbAbJwAU9NTy58rAoYfYE
@@ -47,22 +54,8 @@ env:
   # - variable: MY_SECRET
   #   secret: mySecretRefd (on Cloud Run).
 # See https://firebase.google.com/docs/app-hosting/configure#cloud-run
-runConfig:
-  minInstances: 0
-  # maxInstances: 100
-  # concurrency: 80
-  # cpu: 1
-  # memoryMiB: 512
 
-Environment variables and secrets.
-env:
-  - variable: MESSAGE
-    value: Hello world!
-    availability:
-      - BUILD
-      - RUNTIME
-
-  # Grant access to secrets in Cloud Secret Manager.
-  # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
-  # - variable: MY_SECRET
-  #   secret: mySecretRef
+# Grant access to secrets in Cloud Secret Manager.
+# See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
+# - variable: MY_SECRET
+#   secret: mySecretRef
