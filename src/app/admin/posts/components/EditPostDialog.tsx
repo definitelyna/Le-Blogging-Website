@@ -19,6 +19,7 @@ import AlertContext from "../../context/AlertContext";
 import Blog from "@/src/constants/blogInterface";
 import { setBlogById } from "@/src/utils/setBlogById";
 import { getAllAuthors } from "@/src/utils/getAllAuthor";
+import BasicDatePicker from "./DatePicker";
 
 interface EditPostDialogProps {
   open: boolean;
@@ -146,6 +147,16 @@ export default function EditPostDialog({
               </MenuItem>
             ))}
           </Select>
+        </Box>
+
+        <Box>
+          <BasicDatePicker
+            label="Publish Date"
+            value={blogInput?.datePublished || null}
+            onChange={(newValue) =>
+              setBlogInput({ ...blogInput, datePublished: newValue })
+            }
+          />
         </Box>
 
         <Box>
