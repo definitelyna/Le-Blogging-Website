@@ -2,6 +2,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { theSeasons } from "../fonts/theSeason";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import FeaturedStoriesSection from "./FeaturedStoriesSection";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -39,22 +40,18 @@ export default function Home() {
           communities worldwide.
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "center", gap: 3, mt: 3 }}>
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#000000",
-              color: "#ffffff",
-            }}
-          >
-            <Typography textTransform="none">Explore Stories</Typography>
-            <ArrowForwardIcon sx={{ ml: 1 }} />
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ color: "#000000", borderColor: "text.secondary" }}
-          >
-            <Typography textTransform="none">About Our Mission</Typography>
-          </Button>
+          <Link href="/blog" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#000000",
+                color: "#ffffff",
+              }}
+            >
+              <Typography textTransform="none">Explore Stories</Typography>
+              <ArrowForwardIcon sx={{ ml: 1 }} />
+            </Button>
+          </Link>
         </Box>
       </Box>
 

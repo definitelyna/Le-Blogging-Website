@@ -1,6 +1,15 @@
+"use client";
+
 import { Box, Button, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function Footer() {
+  const router = useRouter();
+
+  const handleNavigate = (path: string) => {
+    router.push(path);
+  };
+
   return (
     <Box
       sx={{
@@ -70,6 +79,7 @@ export default function Footer() {
                 width: "fit-content",
                 ":hover": { color: "text.secondary", transition: "0.2s" },
               }}
+              onClick={() => handleNavigate("/")}
             >
               <Typography variant="body1" fontWeight={400}>
                 Home
@@ -87,23 +97,10 @@ export default function Footer() {
                 p: 0,
                 ":hover": { color: "text.secondary", transition: "0.2s" },
               }}
+              onClick={() => handleNavigate("/blog")}
             >
               <Typography variant="body1" fontWeight={400}>
                 All Stories
-              </Typography>
-            </Button>
-
-            <Button
-              variant="text"
-              sx={{
-                color: "#ffffff",
-                textTransform: "none",
-                p: 0,
-                ":hover": { color: "text.secondary", transition: "0.2s" },
-              }}
-            >
-              <Typography variant="body1" fontWeight={400}>
-                About Us
               </Typography>
             </Button>
           </Box>
@@ -115,9 +112,7 @@ export default function Footer() {
             gap: 1,
             minWidth: 200,
           }}
-        >
-          <Typography variant="h6">Categories</Typography>
-        </Box>
+        ></Box>
       </Box>
 
       <Box>
