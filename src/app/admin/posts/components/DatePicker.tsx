@@ -15,6 +15,7 @@ export default function BasicDatePicker(props: BasicDatePickerProps) {
         label={props.label}
         value={props.value}
         onChange={props.onChange}
+        format="dd/MM/yyyy"
       />
     </LocalizationProvider>
   );
