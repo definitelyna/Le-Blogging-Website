@@ -26,7 +26,7 @@ export default function Home() {
           Globally Vietnamese
         </Typography>
         <Typography variant="h2" fontWeight={400} textAlign="center">
-          Stories That Connect Worlds
+          Stories of Small Businesses Weathering Policy Change
         </Typography>
         <Typography
           variant="h5"
@@ -35,9 +35,9 @@ export default function Home() {
           lineHeight={1.6}
           color="text.secondary"
         >
-          Exploring the Vietnamese experience across cultures, continents, and
-          generations. Where tradition meets innovation, and heritage bridges
-          communities worldwide.
+          Exploring how Vietnam’s small businesses, families, and youth adapt to
+          economic reforms, tax shifts, and global trade tensions — one real
+          story at a time
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "center", gap: 3, mt: 3 }}>
           <Link href="/blog" style={{ textDecoration: "none" }}>
@@ -57,7 +57,7 @@ export default function Home() {
 
       <Box sx={{ py: 9, px: 3, gap: 1, background: "background.default" }}>
         <Typography variant="h4" textAlign="center">
-          Featured Stories
+          Featured Articles
         </Typography>
 
         <Typography
@@ -66,8 +66,9 @@ export default function Home() {
           textAlign="center"
           color="text.secondary"
         >
-          Discover the latest perspectives on Vietnamese culture,
-          entrepreneurship, and global communities
+          Explore the latest insights on Vietnam’s changing economy — from local
+          importers and tax reforms to trade wars and youth-led financial
+          education
         </Typography>
 
         <FeaturedStoriesSection />
