@@ -70,14 +70,18 @@ export default function EditAuthorDialog({
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      sx={{ minWidth: { xs: "90vw", sm: 600 } }}
+      fullWidth
+    >
       <DialogContent
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: 2,
           p: 3,
-          minWidth: 500,
         }}
       >
         <Box>

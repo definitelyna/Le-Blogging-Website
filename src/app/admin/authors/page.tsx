@@ -85,10 +85,18 @@ export default function AuthorTableSection() {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
+          flexWrap: "wrap",
         }}
       >
         <Typography variant="body1">Manage Authors</Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            width: { xs: "100%", md: 400 },
+          }}
+        >
           <Button
             variant="text"
             size="large"
@@ -103,77 +111,83 @@ export default function AuthorTableSection() {
           <SearchBar
             allAuthors={authors}
             setDisplayAuthors={setDisplayAuthors}
-            sx={{ minWidth: 300 }}
+            sx={{ minWidth: 200, flexGrow: 1 }}
           />
         </Box>
       </Box>
 
-      <Table
-        sx={{
-          border: "1px solid #EDEEF2",
-          borderRadius: 10,
-          overflow: "scroll",
-        }}
-      >
-        <TableHead sx={{ border: "1px solid #EDEEF2", borderRadius: "50%" }}>
-          <TableRow>
-            <TableCell>Author</TableCell>
-            <TableCell>Bio</TableCell>
-            <TableCell sx={{ textAlign: "center" }}>Profile</TableCell>
-            <TableCell sx={{ textAlign: "center" }}>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {displayAuthors.map((author) => (
-            <TableRow key={author.id}>
-              <TableCell sx={{ fontWeight: 500 }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <PersonOutlineOutlinedIcon />
-                  {author.name}
-                </Box>
-              </TableCell>
-              <TableCell
-                sx={{
-                  maxWidth: 250,
-                  whiteSpace: "nowrap",
-                  overflowX: "auto",
-                  scrollbarWidth: 0,
-                }}
-              >
-                {author.bio}
-              </TableCell>
-              <TableCell sx={{ display: "flex", justifyContent: "center" }}>
-                <CardMedia
-                  component="img"
-                  image={author.profilePictureUrl}
-                  sx={{
-                    height: 50,
-                    width: 50,
-                    objectFit: "cover",
-                    borderRadius: "50%",
-                  }}
-                />
-              </TableCell>
-              <TableCell sx={{ textAlign: "center" }}>
-                <Button
-                  variant="text"
-                  sx={{ color: "#000000" }}
-                  onClick={() => handleEditAuthorClick(author)}
-                >
-                  <EditOutlinedIcon />
-                </Button>
-                <Button
-                  variant="text"
-                  sx={{ color: "#FF0000" }}
-                  onClick={() => handleDeleteAuthorClick(author)}
-                >
-                  <DeleteOutlineOutlinedIcon />
-                </Button>
-              </TableCell>
+      <Box sx={{ width: "100%", overflowX: "auto" }}>
+        <Table
+          sx={{
+            border: "1px solid #EDEEF2",
+            borderRadius: 10,
+          }}
+        >
+          <TableHead sx={{ border: "1px solid #EDEEF2", borderRadius: "50%" }}>
+            <TableRow>
+              <TableCell>Author</TableCell>
+              <TableCell>Bio</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>Profile</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>Actions</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {displayAuthors.map((author) => (
+              <TableRow key={author.id}>
+                <TableCell sx={{ fontWeight: 500 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <PersonOutlineOutlinedIcon />
+                    {author.name}
+                  </Box>
+                </TableCell>
+                <TableCell
+                  sx={{
+                    maxWidth: 250,
+                    whiteSpace: "nowrap",
+                    overflowX: "auto",
+                    scrollbarWidth: 0,
+                  }}
+                >
+                  {author.bio}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center",
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    image={author.profilePictureUrl}
+                    sx={{
+                      height: 50,
+                      width: 50,
+                      objectFit: "cover",
+                      borderRadius: "50%",
+                      display: "inline-block",
+                    }}
+                  />
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  <Button
+                    variant="text"
+                    sx={{ color: "#000000" }}
+                    onClick={() => handleEditAuthorClick(author)}
+                  >
+                    <EditOutlinedIcon />
+                  </Button>
+                  <Button
+                    variant="text"
+                    sx={{ color: "#FF0000" }}
+                    onClick={() => handleDeleteAuthorClick(author)}
+                  >
+                    <DeleteOutlineOutlinedIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
       <DeleteAuthorDialog
         open={deleteDialogOpen}
         author={selectedAuthor}

@@ -58,9 +58,9 @@ export default function PostTableSection() {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: { xs: 0, md: 3 } }}>
       <SimpleCard
-        contentSx={{ p: 3, display: "flex", flexDirection: "column", gap: 3 }}
+        contentSx={{ p: 2, display: "flex", flexDirection: "column", gap: 3 }}
       >
         <Box
           sx={{
@@ -68,84 +68,101 @@ export default function PostTableSection() {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            flexWrap: "wrap",
           }}
         >
           <Typography variant="body1">Manage Posts</Typography>
           <SearchBar
             allBlogs={blogs}
             setDisplayBlogs={setDisplayBlogs}
-            sx={{ minWidth: 400 }}
+            sx={{
+              minWidth: 200,
+              maxWidth: 400,
+            }}
           />
         </Box>
 
-        <Table sx={{ border: "1px solid #EDEEF2", borderRadius: 10 }}>
-          <TableHead sx={{ border: "1px solid #EDEEF2", borderRadius: "50%" }}>
-            <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell>Author</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Published</TableCell>
-              <TableCell sx={{ textAlign: "center" }}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {displayBlogs.map((blog) => (
-              <TableRow key={blog.id}>
-                <TableCell sx={{ fontWeight: 500 }}>{blog.title}</TableCell>
-                <TableCell>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <PersonOutlineOutlinedIcon />
-                    {blog.author?.name}
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Chip
-                    label={blog.category}
-                    sx={{
-                      cursor: "pointer",
-                      bgcolor: "background.default",
-                      border: "1px solid",
-                      borderColor: "#C4C4C4",
-                      fontWeight: 500,
-                      borderRadius: 2,
-                    }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <CalendarTodayOutlinedIcon fontSize="medium" />
-                    {blog.datePublished.toLocaleDateString()}
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Link
-                    href={`/blog/${blog.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button variant="text" sx={{ color: "#000000" }}>
-                      <VisibilityOutlinedIcon />
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="text"
-                    sx={{ color: "#000000" }}
-                    onClick={() => handleEditBlogClick(blog)}
-                  >
-                    <EditOutlinedIcon />
-                  </Button>
-                  <Button
-                    variant="text"
-                    sx={{ color: "#FF0000" }}
-                    onClick={() => handleDeleteBlogClick(blog)}
-                  >
-                    <DeleteOutlineOutlinedIcon />
-                  </Button>
-                </TableCell>
+        <Box sx={{ width: "100%", overflowX: "auto" }}>
+          <Table
+            sx={{
+              border: "1px solid #EDEEF2",
+              borderRadius: 10,
+            }}
+          >
+            <TableHead
+              sx={{
+                border: "1px solid #EDEEF2",
+                borderRadius: "50%",
+              }}
+            >
+              <TableRow>
+                <TableCell>Title</TableCell>
+                <TableCell>Author</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Published</TableCell>
+                <TableCell sx={{ textAlign: "center" }}>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {displayBlogs.map((blog) => (
+                <TableRow key={blog.id}>
+                  <TableCell sx={{ fontWeight: 500 }}>{blog.title}</TableCell>
+                  <TableCell>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      <PersonOutlineOutlinedIcon />
+                      {blog.author?.name}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Chip
+                      label={blog.category}
+                      sx={{
+                        cursor: "pointer",
+                        bgcolor: "background.default",
+                        border: "1px solid",
+                        borderColor: "#C4C4C4",
+                        fontWeight: 500,
+                        borderRadius: 2,
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      <CalendarTodayOutlinedIcon fontSize="medium" />
+                      {blog.datePublished.toLocaleDateString()}
+                    </Box>
+                  </TableCell>
+
+                  <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                    <Link
+                      href={`/blog/${blog.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button variant="text" sx={{ color: "#000000" }}>
+                        <VisibilityOutlinedIcon />
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="text"
+                      sx={{ color: "#000000" }}
+                      onClick={() => handleEditBlogClick(blog)}
+                    >
+                      <EditOutlinedIcon />
+                    </Button>
+                    <Button
+                      variant="text"
+                      sx={{ color: "#FF0000" }}
+                      onClick={() => handleDeleteBlogClick(blog)}
+                    >
+                      <DeleteOutlineOutlinedIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
         <EditPostDialog
           open={openEditDialog}
           onClose={handleEditDialogClose}

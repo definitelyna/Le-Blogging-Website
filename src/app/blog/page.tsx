@@ -15,6 +15,7 @@ export default function BlogPage() {
           justifyContent: "center",
           gap: 2,
           py: 10,
+          px: 8,
           background: "linear-gradient(90deg, #EFF5FF 0%, #E0E6FF 100%)",
         }}
       >
@@ -29,7 +30,9 @@ export default function BlogPage() {
         >
           Explore diverse perspectives from the global Vietnamese community
         </Typography>
-        <SearchBar sx={{ width: 500, height: 45, bgcolor: "#F3F3F5" }} />
+        <SearchBar
+          sx={{ maxWidth: 500, minWidth: 400, height: 45, bgcolor: "#F3F3F5" }}
+        />
       </Box>
 
       <BlogSection />
